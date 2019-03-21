@@ -43,6 +43,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     // handleTap : elfunc ellybetem ested3a2ha lma ted3'at 3lscreen
 
     @objc func handleTap(gestureRecognizer: UIGestureRecognizer) {
+        //محتاجين ننشئ كورة سلة
         //scene view to be accessed elly ne3meloh lelwosool
         
         //access the poin of view of that scene view ... the center point
@@ -100,10 +101,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         guard let backboardScene = SCNScene(named: "art.scnassets/hoop.scn") else {
             return
         }
-        //
+        //recursively خلناها فولس عشان منحددش مكان الفروع اللي جواها اللي هما rim و RimHolder_001
+        // 
         guard let backboardNode = backboardScene.rootNode.childNode(withName: "backboard", recursively: false) else {
             return
         }
+        // SCNVector3 ده نستخدمه لما نستخدم كانات ثلاثسة الابعاد في مساحة ثلاثية الابعاد من اجل ضبط موضع الكائن في السبيس
+        // x :center in phone y: above to phone z: in fron of phone
         backboardNode.position = SCNVector3(x: 0,y: 0.5, z: -3)
         // to add backboardNode to the scene
      
@@ -113,19 +117,25 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let physicsBody = SCNPhysicsBody(type: .static, shape: physicsShape)
         
         backboardNode.physicsBody = physicsBody
+       // let forceVector:Float = 6
+       // ballNode.physicsBody?.applyForce(SCNVector3(x: cameraOriantation.x * forceVector,y: cameraOriantation.y * forceVector , z: cameraOriantation.z * forceVector), asImpulse: true)
         
         sceneView.scene.rootNode.addChildNode(backboardNode)
         currentNode = backboardNode
     }
+    //  Creating my First Action : bet5ally elboard btegy yemeen w shemaal
     func horizontalAction(node: SCNNode){
+        //da elly hat2om beeh el coora -1 is mean 1 meter to the left .. every 3 second
         let leftAction = SCNAction.move(by: SCNVector3(x: -1,y: 0,z: 0), duration: 3)
 
+        //da elly hat2om beeh el coora 1 is mean 1 meter to the right .. every 3 second
         let rightAction = SCNAction.move(by: SCNVector3(x: 1,y: 0,z: 0), duration: 3)
         let actionSequence = SCNAction.sequence([leftAction, rightAction])
         node.runAction(SCNAction.repeat(actionSequence, count: 4))
         
         
     }
+  //  Creating my Second Action : bta3 el coora ye5alleha tenzel we tetnattat 7ettet nattta heeeeh :D
     func roundAction(node: SCNNode) {
         let upLeft = SCNAction.move(by: SCNVector3(x: 1,y: 1,z: 0), duration: 2)
         let downRight = SCNAction.move(by: SCNVector3(x: 1,y: -1,z: 0), duration: 2)
